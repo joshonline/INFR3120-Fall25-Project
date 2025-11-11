@@ -1,4 +1,7 @@
 # INFR3120-Fall25-Project
 
-## collaboratios##
-Adyan Iqbalkf
+## collaborators
+
+Joshua Masanza
+
+Adyan Iqbal
