@@ -5,7 +5,21 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <header>
+      <h1>Welcome to <%= title %></h1>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/create">Create Resume</a>
+      </nav>
+    </header>
+
+    <section>
+      <h2>Create your Perfect Resume</h2>
+      <a class="hero-button" href="/create"><%= buttonText%></a>
+    </section>
+
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
+    </footer>
   </body>
 </html>
