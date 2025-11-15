@@ -1,4 +1,4 @@
-//Define the DB model for Resumes
+//Define the DB schema for Resumes
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -42,3 +42,11 @@ const resumeSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
+
+//Update `resumeSchema.updateAt` on save
+resumeSchema.pre('save', function(next){
+    this.updatedAt=Date.now()
+    next();
+});
+
+module.exports = mongoose.model("Resume", resumeSchema,"CV-Dev-Cluster");

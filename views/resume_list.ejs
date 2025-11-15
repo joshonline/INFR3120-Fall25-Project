@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1><%= title %></h1>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/create">Create Resume</a>
+      </nav>
+    </header>
+
+    <main>
+      <% if (resumes && resumes.length > 0) { %>
+      <div class="resume-grid">
+        <% resumes.forEach(resume => { %>
+        <div class="resume-card">
+          <h3>
+            <a href="/resumes/<%= resume._id %>"> <%= resume.fullName %> </a>
+          </h3>
+
+          <div class="resume-info">
+            <p>📧 <%= resume.email || 'No email provided' %></p>
+            <p>
+              📅 Created: <%= new
+              Date(resume.createdAt).toLocaleDateString('en-US', { year:
+              'numeric', month: 'short', day: 'numeric' }) %>
+            </p>
+            <p>
+              🔄 Updated: <%= new
+              Date(resume.updatedAt).toLocaleDateString('en-US', { year:
+              'numeric', month: 'short', day: 'numeric' }) %>
+            </p>
+          </div>
+
+          <div class="resume-actions">
+            <a href="/resumes/<%= resume._id %>" class="btn-card btn-view"
+              >View</a
+            >
+            <a href="/resumes/<%= resume._id %>/edit" class="btn-card btn-edit"
+              >Edit</a
+            >
+            <form
+              method="POST"
+              action="/resumes/<%= resume._id %>/delete"
+              style="flex: 1"
+            >
+              <button
+                type="submit"
+                class="btn-card btn-delete"
+                style="width: 100%"
+                onclick="return confirm('Delete <%= resume.fullName %>\'s resume?')"
+              >
+                Delete
+              </button>
+            </form>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+      <% } else { %>
+      <div class="empty-state">
+        <h2>Ready to Build Your Resume?</h2>
+        <p>No resumes yet. Create your first professional resume in minutes!</p>
+        <a href="/resumes/new" class="btn">Get Started Now</a>
+      </div>
+      <% } %>
+    </main>
+
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
+    </footer>
+  </body>
+</html>
