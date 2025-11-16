@@ -14,7 +14,7 @@ router.post("/new", resumeController.resume_create_post);
 // GET request for list of all resumes
 router.get("/", resumeController.resume_list_get);
 // GET Resquest for one resume
-router.get("/:id", resumeController.resume_detail);
+router.get("/:id", resumeController.resume_detail_get);
 
 // UPDATE
 // GET Request for update of one resume
