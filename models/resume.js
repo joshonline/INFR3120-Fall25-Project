@@ -44,9 +44,9 @@ const resumeSchema = new Schema({
 });
 
 //Update `resumeSchema.updateAt` on save
-resumeSchema.pre('save', function(next){
-    this.updatedAt=Date.now()
-    next();
+resumeSchema.pre("save", function (next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
-module.exports = mongoose.model("Resume", resumeSchema,"CV-Dev-Cluster");
+module.exports = mongoose.model("Resume", resumeSchema);

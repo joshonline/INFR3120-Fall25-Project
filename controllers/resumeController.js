@@ -17,7 +17,15 @@ exports.resume_create_post = async (req, res) => {
     location: req.body.location,
     summary: req.body.summary,
     skills: req.body.skills,
+    experience: req.body.experience || [],
+    education: req.body.education || [],
+    updatedAt: Date.now()
   };
+
+  const resume = new Resume(resumeData);
+  await resume.save();
+
+  res.redirect(`/resumes/${resume._id}`);
 };
 
 // Resume reading
@@ -59,6 +67,17 @@ exports.resume_update_get = async (req, res) => {
 };
 
 exports.resume_update_post = async (req, res) => {
+  const updateData = {
+    fullName: req.body.fullName,
+    email: req.body.email,
+    phone: req.body.phone,
+    location: req.body.location,
+    summary: req.body.summary,
+    skills: req.body.skills,
+    experience: req.body.experience || [],
+    education: req.body.education || [],
+    updatedAt: Date.now()
+  };
   await Resume.findByIdAndUpdate(req.params.id);
   res.redirect(`/resumes/${req.params.id}`);
 };
