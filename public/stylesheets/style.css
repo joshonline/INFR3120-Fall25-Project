@@ -3,6 +3,32 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+a {color: #00B7FF;}
+
+/* --Logo-- */
+.logo {
+  width: 90px;
+  height: auto;
+  display: block;
+}
+
+/* --Hero_Button-- */
+.hero-button {
+  background: #e2e2e2;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+/* --Dashboard-- */
+.dashboard {padding: 40px}
+.dashboardo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.card {
+  background: #e2e2e2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }

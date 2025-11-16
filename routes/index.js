@@ -5,9 +5,10 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'CV', buttonText: 'Get Started' });
 });
+
 /* create resume page */
 router.get('/create', function(req, res, next) {
-  res.render('create', {title: 'Create Resume'})
+  res.render('create', {title: 'Create'})
 })
 
 module.exports = router;

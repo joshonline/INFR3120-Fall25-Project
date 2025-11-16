@@ -5,17 +5,30 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <!--Nav_Bar-->
     <header>
+      <img src="/images/CV.png" alt="Webpage Logo" class="logo">
       <h1>Welcome to <%= title %></h1>
       <nav>
         <a href="/">Home</a>
-        <a href="/create">Create Resume</a>
+        <a href="/create">Create</a>
       </nav>
     </header>
 
+    <!--Hero_Button-->
     <section>
       <h2>Create your Perfect Resume</h2>
       <a class="hero-button" href="/create"><%= buttonText%></a>
+    </section>
+
+    <!--Dashboard-->
+    <section>
+      <h2>Dashboard</h2>
+      <div class="dashboardo">
+        <div class="card">Create Resume</div>
+        <div class="card">Edit Resume</div>
+        <div class="card">Saved Resumes</div>
+      </div>
     </section>
 
     <footer>
