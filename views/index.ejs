@@ -2,7 +2,7 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
     <!--Nav_Bar-->
@@ -11,24 +11,14 @@
       <h1>Welcome to <%= title %></h1>
       <nav>
         <a href="/">Home</a>
-        <a href="/create">Create</a>
+        <a href="/resumes/new">Create Resume</a>
       </nav>
     </header>
 
     <!--Hero_Button-->
     <section>
       <h2>Create your Perfect Resume</h2>
-      <a class="hero-button" href="/create"><%= buttonText%></a>
-    </section>
-
-    <!--Dashboard-->
-    <section>
-      <h2>Dashboard</h2>
-      <div class="dashboard">
-        <div class="card">Create Resume</div>
-        <div class="card">Edit Resume</div>
-        <div class="card">Saved Resumes</div>
-      </div>
+      <a class="hero-button" href="/resumes/new"><%= buttonText %></a>
     </section>
 
     <footer>

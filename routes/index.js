@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 /* create resume page */
 router.get('/create', function(req, res, next) {
-  res.render('create', {title: 'Create'})
+  res.render('create', {title: 'Create Resume'});
 })
 
 module.exports = router;
