@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var resumeController = require('/controllers/resumeController');
+var resumeController = require('../controllers/resumeController');
 
 /* home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'CV', buttonText: 'Get Started' });
-});
+// router.get('/', function(req, res, next) {
+//   res.render('index', { title: 'CV', buttonText: 'Get Started' });
+// });
 
 /* create resume page */
 router.get('/create', function(req, res, next) {
-  res.render('create', {title: 'Create Resume'});
+  res.redirect('/resume/new', {title: 'Create Resume'});
 })
 
 /* LANDING-PAGE (Controller) */
