@@ -21,6 +21,45 @@
       <a class="hero-button" href="/resumes/new"><%= buttonText %></a>
     </section>
 
+    <!--Dashboard-->
+    <section>
+      <h2>Dashboard</h2>
+      <div class="dashboardo">
+        <div class="card">Create Resume</div>
+        <div class="card">Edit Resume</div>
+        <div class="card">Saved Resumes</div>
+      </div>
+    </section>
+
+    <!--Current_Resume_List-->
+    <section>
+      <h2>Current Resumes</h2>
+      <% if (resumes && resumes.length > 0) { %>
+      <table class="resume-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Last Updated</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% resumes.forEach(resume => { %>
+            <tr>
+              <td><%= resume.fullName %></td>
+              <td><%= resume.email %></td>
+              <td><%= resume.updatedAt.toDateString() %></td>
+              <td><a href="/resumes/<%= resume._id %>">View</a></td>
+            </tr>
+          <% }) %>            
+        </tbody>
+        </table>
+      <% } else { %>
+        <p>No resumes found. Create one to get started!</p>
+      <% } %>
+    </section>
+
     <footer>
       <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
     </footer>

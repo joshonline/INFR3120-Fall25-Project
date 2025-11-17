@@ -20,7 +20,7 @@ a {color: #00B7FF;}
 }
 
 /* --Dashboard-- */
-.dashboard {
+.dashboardo {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;

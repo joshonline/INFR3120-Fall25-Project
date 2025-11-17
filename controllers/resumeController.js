@@ -134,3 +134,22 @@ exports.resume_delete = async (req, res) => {
     res.status(500).send(err.message);
   }
 };
+
+// Landing Page - Show Current Resumes
+exports.home_page = async (req, res) => {
+  try {
+    const resumes = await Resume.find().select("fullName email createdAt");
+
+    res.render("index", {
+      title: "CV",
+      buttonText: "Get Started",
+      resumes: resumes
+    });
+  } catch (err) {
+    console.error("Error loading home page resumes:", err);
+    res.status(500).render("error", {
+      message: "Error loading resumes",
+      error: err,
+    });
+  }
+};
