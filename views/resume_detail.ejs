@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    
+  </head>
+  <body>
+    <header>
+      <h1>📄 Resume Details</h1>
+      <nav>
+        <a href="/">🏠 Home</a>
+        <a href="/resumes">📋 All Resumes</a>
+        <a href="/resumes/new">➕ Create Resume</a>
+      </nav>
+    </header>
+
+    <div class="page-container">
+      <!-- Main Resume Content -->
+      <div class="resume-container">
+        <!-- Resume Header -->
+        <div class="resume-header">
+          <h1><%= resume.fullName %></h1>
+          <div class="contact-info">
+            <% if (resume.email) { %>
+              <span>📧 <%= resume.email %></span>
+            <% } %>
+            <% if (resume.phone) { %>
+              <span>📱 <%= resume.phone %></span>
+            <% } %>
+            <% if (resume.location) { %>
+              <span>📍 <%= resume.location %></span>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Professional Summary -->
+        <% if (resume.summary) { %>
+          <div class="resume-section">
+            <h2>Professional Summary</h2>
+            <p class="summary-text"><%= resume.summary %></p>
+          </div>
+        <% } %>
+
+        <!-- Skills -->
+        <% if (resume.skills && resume.skills.length > 0) { %>
+          <div class="resume-section">
+            <h2>Skills & Expertise</h2>
+            <div class="skills-list">
+              <% resume.skills.forEach(skill => { %>
+                <span class="skill-tag"><%= skill %></span>
+              <% }); %>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- Experience -->
+        <div class="resume-section">
+          <h2>Professional Experience</h2>
+          <% if (resume.experience && resume.experience.length > 0) { %>
+            <% resume.experience.forEach(exp => { %>
+              <div class="experience-item">
+                <div class="item-header">
+                  <div>
+                    <div class="item-title"><%= exp.title %></div>
+                    <% if (exp.company) { %>
+                      <div class="item-subtitle"><%= exp.company %></div>
+                    <% } %>
+                  </div>
+                  <% if (exp.startDate || exp.endDate) { %>
+                    <div class="item-dates">
+                      <%= exp.startDate || 'N/A' %> - <%= exp.endDate || 'Present' %>
+                    </div>
+                  <% } %>
+                </div>
+                <% if (exp.description) { %>
+                  <p class="item-description"><%= exp.description %></p>
+                <% } %>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p class="empty-message">No work experience added yet.</p>
+          <% } %>
+        </div>
+
+        <!-- Education -->
+        <div class="resume-section">
+          <h2>Education</h2>
+          <% if (resume.education && resume.education.length > 0) { %>
+            <% resume.education.forEach(edu => { %>
+              <div class="education-item">
+                <div class="item-header">
+                  <div>
+                    <div class="item-title"><%= edu.degree %></div>
+                    <% if (edu.school) { %>
+                      <div class="item-subtitle"><%= edu.school %></div>
+                    <% } %>
+                  </div>
+                  <% if (edu.graduationYear) { %>
+                    <div class="item-dates"><%= edu.graduationYear %></div>
+                  <% } %>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p class="empty-message">No education information added yet.</p>
+          <% } %>
+        </div>
+
+        <!-- Metadata -->
+        <div class="metadata">
+          <p>
+            <span>📅 Created: <%= new Date(resume.createdAt).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }) %></span>
+            <span>|</span>
+            <span>🔄 Last Updated: <%= new Date(resume.updatedAt).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            }) %></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Quick Actions -->
+        <div class="action-card">
+          <h3>⚡ Quick Actions</h3>
+          <div class="action-buttons">
+            <a href="/resumes/<%= resume._id %>/edit" class="btn btn-primary">
+              ✏️ Edit Resume
+            </a>
+            <button onclick="window.print()" class="btn btn-success">
+              🖨️ Print / Save PDF
+            </button>
+            <a href="/resumes" class="btn btn-secondary">
+              ← Back to List
+            </a>
+          </div>
+        </div>
+
+        <!-- Stats Card -->
+        <div class="stats-card">
+          <h3>📊 Resume Stats</h3>
+          <div class="stat-item">
+            <span class="stat-label">Skills Listed</span>
+            <span class="stat-value"><%= resume.skills ? resume.skills.length : 0 %></span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Work Experiences</span>
+            <span class="stat-value"><%= resume.experience ? resume.experience.length : 0 %></span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Education Entries</span>
+            <span class="stat-value"><%= resume.education ? resume.education.length : 0 %></span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Completeness</span>
+            <span class="stat-value">
+              <% 
+                let completeness = 0;
+                if (resume.fullName) completeness += 20;
+                if (resume.email) completeness += 10;
+                if (resume.phone) completeness += 10;
+                if (resume.summary) completeness += 20;
+                if (resume.skills && resume.skills.length > 0) completeness += 20;
+                if (resume.experience && resume.experience.length > 0) completeness += 10;
+                if (resume.education && resume.education.length > 0) completeness += 10;
+              %>
+              <%= completeness %>%
+            </span>
+          </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="action-card" style="border: 2px solid #ff6b6b;">
+          <h3 style="color: #ff6b6b;">⚠️ Danger Zone</h3>
+          <form method="POST" action="/resumes/<%= resume._id %>/delete?_method=PUT" style="margin: 0;">
+            <button 
+              type="submit" 
+              class="btn btn-danger"
+              style="width: 100%;"
+              onclick="return confirm('⚠️ Are you sure you want to permanently delete this resume?\n\nThis action cannot be undone!')"
+            >
+              🗑️ Delete Resume
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
+    </footer>
+  </body>
+</html>
