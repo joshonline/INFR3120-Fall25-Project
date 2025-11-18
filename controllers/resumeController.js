@@ -111,7 +111,7 @@ exports.resume_update_post = async (req, res) => {
       education: req.body.education || [],
       updatedAt: Date.now(),
     };
-    await Resume.findByIdAndUpdate(req.params.id);
+    await Resume.findByIdAndUpdate(req.params.id, updateData);
     res.redirect(`/resumes/${req.params.id}`);
   } catch (err) {
     console.log("Error updating resume:", err);
