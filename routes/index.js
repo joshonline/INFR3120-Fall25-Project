@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 /* create resume page */
 router.get('/create', function(req, res, next) {
-  res.render('create', {title: 'Create Resume'});
+  res.redirect('/resumes/new', {title: 'Create Resume'});
 })
 
 module.exports = router;
