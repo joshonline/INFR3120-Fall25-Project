@@ -9,7 +9,7 @@ var resumeController = require('../controllers/resumeController');
 
 /* create resume page */
 router.get('/create', function(req, res, next) {
-  res.redirect('/resume/new', {title: 'Create Resume'});
+  res.redirect('/resumes/new', {title: 'Create Resume'});
 })
 
 /* LANDING-PAGE (Controller) */

@@ -11,16 +11,22 @@ exports.resume_create_get = (req, res) => {
 
 exports.resume_create_post = async (req, res) => {
   try {
+    // Parse skills if they come as array from form
+    let skills = req.body.skills || [];
+    if (!Array.isArray(skills)) {
+      skills = [skills];
+    }
+    skills = skills.filter(s => s && s.trim() !== '');
+
     const resumeData = {
       fullName: req.body.fullName,
       email: req.body.email,
       phone: req.body.phone,
       location: req.body.location,
       summary: req.body.summary,
-      skills: req.body.skills,
+      skills: skills,
       experience: req.body.experience || [],
       education: req.body.education || [],
-      updatedAt: Date.now(),
     };
 
     const resume = new Resume(resumeData);
@@ -41,9 +47,9 @@ exports.resume_create_post = async (req, res) => {
 // Resume reading
 exports.resume_list_get = async (req, res) => {
   try {
-    const resumes = await Resume.find().select(
-      "fullName email createdAt updatedAt"
-    );
+    const resumes = await Resume.find()
+      .select("fullName email createdAt updatedAt")
+      .sort({ updatedAt: -1 }); // Show newest first
 
     res.render("resume_list", {
       title: "All Resumes",
@@ -71,7 +77,7 @@ exports.resume_detail_get = async (req, res) => {
     }
 
     res.render("resume_detail", {
-      title: `${resume.fullName}"'s Resume`,
+      title: `${resume.fullName}'s Resume`,
       resume: resume,
     });
   } catch (err) {
@@ -88,33 +94,59 @@ exports.resume_detail_get = async (req, res) => {
 exports.resume_update_get = async (req, res) => {
   try {
     const resume = await Resume.findById(req.params.id);
+    
+    if (!resume) {
+      return res.status(404).render("error", {
+        message: "Resume not found",
+        error: { status: 404 },
+      });
+    }
+    
     res.render("resume_form", {
       title: "Edit Resume",
       resume: resume,
       errors: null,
     });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error("Error loading resume for edit:", err);
+    res.status(500).render("error", {
+      message: "Error loading resume",
+      error: err,
+    });
   }
 };
 
 exports.resume_update_post = async (req, res) => {
   try {
+    // Parse skills if they come as array from form
+    let skills = req.body.skills || [];
+    if (!Array.isArray(skills)) {
+      skills = [skills];
+    }
+    skills = skills.filter(s => s && s.trim() !== '');
+
     const updateData = {
       fullName: req.body.fullName,
       email: req.body.email,
       phone: req.body.phone,
       location: req.body.location,
       summary: req.body.summary,
-      skills: req.body.skills,
+      skills: skills,
       experience: req.body.experience || [],
       education: req.body.education || [],
       updatedAt: Date.now(),
     };
-    await Resume.findByIdAndUpdate(req.params.id);
+
+    // FIX: This was missing the updateData parameter!
+    await Resume.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+      runValidators: true
+    });
+    
     res.redirect(`/resumes/${req.params.id}`);
   } catch (err) {
-    console.log("Error updating resume:", err);
+    console.error("Error updating resume:", err);
+    
     const resume = await Resume.findById(req.params.id);
     res.render("resume_form", {
       title: "Edit Resume",
@@ -127,28 +159,20 @@ exports.resume_update_post = async (req, res) => {
 // Resume deletion
 exports.resume_delete = async (req, res) => {
   try {
-    await Resume.findByIdAndDelete(req.params.id);
+    const resume = await Resume.findByIdAndDelete(req.params.id);
+    
+    if (!resume) {
+      return res.status(404).render("error", {
+        message: "Resume not found",
+        error: { status: 404 },
+      });
+    }
+    
     res.redirect("/resumes");
   } catch (err) {
-    console.log("Error deleteing resume:", err);
-    res.status(500).send(err.message);
-  }
-};
-
-// Landing Page - Show Current Resumes
-exports.home_page = async (req, res) => {
-  try {
-    const resumes = await Resume.find().select("fullName email createdAt");
-
-    res.render("index", {
-      title: "CV",
-      buttonText: "Get Started",
-      resumes: resumes
-    });
-  } catch (err) {
-    console.error("Error loading home page resumes:", err);
+    console.error("Error deleting resume:", err);
     res.status(500).render("error", {
-      message: "Error loading resumes",
+      message: "Error deleting resume",
       error: err,
     });
   }

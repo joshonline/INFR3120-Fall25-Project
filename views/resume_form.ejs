@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <style>
+      .form-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+      }
+      
+      .form-section:last-child {
+        border-bottom: none;
+      }
+      
+      .form-section h2 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+      
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #555;
+      }
+      
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-family: inherit;
+      }
+      
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      
+      .required {
+        color: red;
+      }
+      
+      .dynamic-section {
+        background: #f9f9f9;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        position: relative;
+      }
+      
+      .btn-remove {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 0.5rem;
+      }
+      
+      .btn-add {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 1rem;
+      }
+      
+      .btn-primary {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        margin-right: 1rem;
+      }
+      
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+      
+      .btn-remove:hover { background: #c82333; }
+      .btn-add:hover { background: #218838; }
+      .btn-primary:hover { background: #0056b3; }
+      .btn-secondary:hover { background: #5a6268; }
+      
+      .form-actions {
+        margin-top: 2rem;
+        text-align: center;
+      }
+      
+      .error {
+        color: #dc3545;
+        background: #f8d7da;
+        padding: 0.75rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+      
+      .skills-input-container {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      
+      .skills-tag {
+        display: inline-block;
+        background: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        margin: 0.25rem;
+      }
+      
+      .skills-tag button {
+        background: none;
+        border: none;
+        color: white;
+        margin-left: 0.5rem;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      
+      #skills-display {
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1><%= title %></h1>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/resumes">All Resumes</a>
+        <a href="/resumes/new">Create Resume</a>
+      </nav>
+    </header>
+
+    <div class="form-container">
+      <% if (errors) { %>
+        <div class="error">
+          <strong>Please fix the following errors:</strong>
+          <ul>
+            <% Object.keys(errors).forEach(key => { %>
+              <li><%= errors[key].message %></li>
+            <% }); %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form 
+        method="POST" 
+        action="<%= resume ? `/resumes/${resume._id}?_method=PUT` : '/resumes/new' %>"
+      >
+        
+        <!-- Personal Information Section -->
+        <div class="form-section">
+          <h2>Personal Information</h2>
+          
+          <div class="form-group">
+            <label for="fullName">Full Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="fullName" 
+              name="fullName" 
+              value="<%= resume ? resume.fullName : '' %>"
+              required
+              placeholder="John Doe"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              value="<%= resume ? resume.email : '' %>"
+              placeholder="john.doe@example.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              value="<%= resume ? resume.phone : '' %>"
+              placeholder="(123) 456-7890"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              value="<%= resume ? resume.location : '' %>"
+              placeholder="City, State/Province"
+            />
+          </div>
+        </div>
+
+        <!-- Professional Summary Section -->
+        <div class="form-section">
+          <h2>Professional Summary</h2>
+          
+          <div class="form-group">
+            <label for="summary">Summary</label>
+            <textarea 
+              id="summary" 
+              name="summary" 
+              placeholder="Brief overview of your professional background and career objectives..."
+            ><%= resume ? resume.summary : '' %></textarea>
+          </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="form-section">
+          <h2>Skills</h2>
+          
+          <div class="form-group">
+            <label for="skill-input">Add Skills (press Enter or click Add)</label>
+            <div class="skills-input-container">
+              <input 
+                type="text" 
+                id="skill-input" 
+                placeholder="e.g., JavaScript, Project Management"
+              />
+              <button type="button" class="btn-add" onclick="addSkill()">Add</button>
+            </div>
+            <div id="skills-display">
+              <% if (resume && resume.skills) { %>
+                <% resume.skills.forEach((skill, index) => { %>
+                  <span class="skills-tag">
+                    <%= skill %>
+                    <button type="button" onclick="removeSkill(<%= index %>)">×</button>
+                    <input type="hidden" name="skills[]" value="<%= skill %>" />
+                  </span>
+                <% }); %>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="form-section">
+          <h2>Work & Volunteer Experience</h2>
+          
+          <div id="experience-container">
+            <% if (resume && resume.experience && resume.experience.length > 0) { %>
+              <% resume.experience.forEach((exp, index) => { %>
+                <div class="dynamic-section" data-index="<%= index %>">
+                  <div class="form-group">
+                    <label>Job Title <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      name="experience[<%= index %>][title]" 
+                      value="<%= exp.title %>"
+                      required
+                      placeholder="Software Engineer"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Company</label>
+                    <input 
+                      type="text" 
+                      name="experience[<%= index %>][company]" 
+                      value="<%= exp.company || '' %>"
+                      placeholder="Tech Corp"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Start Date</label>
+                    <input 
+                      type="text" 
+                      name="experience[<%= index %>][startDate]" 
+                      value="<%= exp.startDate || '' %>"
+                      placeholder="Jan 2020"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>End Date</label>
+                    <input 
+                      type="text" 
+                      name="experience[<%= index %>][endDate]" 
+                      value="<%= exp.endDate || '' %>"
+                      placeholder="Present or Dec 2023"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea 
+                      name="experience[<%= index %>][description]" 
+                      placeholder="Describe your responsibilities and achievements..."
+                    ><%= exp.description || '' %></textarea>
+                  </div>
+
+                  <button type="button" class="btn-remove" onclick="removeExperience(this)">
+                    Remove Experience
+                  </button>
+                </div>
+              <% }); %>
+            <% } %>
+          </div>
+
+          <button type="button" class="btn-add" onclick="addExperience()">
+            + Add Experience
+          </button>
+        </div>
+
+        <!-- Education Section -->
+        <div class="form-section">
+          <h2>Education</h2>
+          
+          <div id="education-container">
+            <% if (resume && resume.education && resume.education.length > 0) { %>
+              <% resume.education.forEach((edu, index) => { %>
+                <div class="dynamic-section" data-index="<%= index %>">
+                  <div class="form-group">
+                    <label>Degree <span class="required">*</span></label>
+                    <input 
+                      type="text" 
+                      name="education[<%= index %>][degree]" 
+                      value="<%= edu.degree %>"
+                      required
+                      placeholder="Bachelor of Science in Computer Science"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>School</label>
+                    <input 
+                      type="text" 
+                      name="education[<%= index %>][school]" 
+                      value="<%= edu.school || '' %>"
+                      placeholder="University of Example"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label>Graduation Year</label>
+                    <input 
+                      type="text" 
+                      name="education[<%= index %>][graduationYear]" 
+                      value="<%= edu.graduationYear || '' %>"
+                      placeholder="2023"
+                    />
+                  </div>
+
+                  <button type="button" class="btn-remove" onclick="removeEducation(this)">
+                    Remove Education
+                  </button>
+                </div>
+              <% }); %>
+            <% } %>
+          </div>
+
+          <button type="button" class="btn-add" onclick="addEducation()">
+            + Add Education
+          </button>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">
+            <%= resume ? 'Update Resume' : 'Create Resume' %>
+          </button>
+          <a href="/resumes" class="btn-secondary" style="text-decoration: none; display: inline-block;">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      <p>&copy; <%= new Date().getFullYear() %> Resume Builder</p>
+    </footer>
+
+    <script>
+      let experienceCount = <%= resume && resume.experience ? resume.experience.length : 0 %>;
+      let educationCount = <%= resume && resume.education ? resume.education.length : 0 %>;
+
+      // Skills Management
+      function addSkill() {
+        const input = document.getElementById('skill-input');
+        const skill = input.value.trim();
+        
+        if (skill) {
+          const display = document.getElementById('skills-display');
+          const skillTag = document.createElement('span');
+          skillTag.className = 'skills-tag';
+          skillTag.innerHTML = `
+            ${skill}
+            <button type="button" onclick="this.parentElement.remove()">×</button>
+            <input type="hidden" name="skills[]" value="${skill}" />
+          `;
+          display.appendChild(skillTag);
+          input.value = '';
+        }
+      }
+
+      document.getElementById('skill-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addSkill();
+        }
+      });
+
+      function removeSkill(index) {
+        const display = document.getElementById('skills-display');
+        display.children[index].remove();
+      }
+
+      // Experience Management
+      function addExperience() {
+        const container = document.getElementById('experience-container');
+        const expDiv = document.createElement('div');
+        expDiv.className = 'dynamic-section';
+        expDiv.innerHTML = `
+          <div class="form-group">
+            <label>Job Title <span class="required">*</span></label>
+            <input type="text" name="experience[${experienceCount}][title]" required placeholder="Software Engineer" />
+          </div>
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" name="experience[${experienceCount}][company]" placeholder="Tech Corp" />
+          </div>
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="text" name="experience[${experienceCount}][startDate]" placeholder="Jan 2020" />
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="text" name="experience[${experienceCount}][endDate]" placeholder="Present or Dec 2023" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea name="experience[${experienceCount}][description]" placeholder="Describe your responsibilities and achievements..."></textarea>
+          </div>
+          <button type="button" class="btn-remove" onclick="removeExperience(this)">Remove Experience</button>
+        `;
+        container.appendChild(expDiv);
+        experienceCount++;
+      }
+
+      function removeExperience(btn) {
+        btn.parentElement.remove();
+      }
+
+      // Education Management
+      function addEducation() {
+        const container = document.getElementById('education-container');
+        const eduDiv = document.createElement('div');
+        eduDiv.className = 'dynamic-section';
+        eduDiv.innerHTML = `
+          <div class="form-group">
+            <label>Degree <span class="required">*</span></label>
+            <input type="text" name="education[${educationCount}][degree]" required placeholder="Bachelor of Science in Computer Science" />
+          </div>
+          <div class="form-group">
+            <label>School</label>
+            <input type="text" name="education[${educationCount}][school]" placeholder="University of Example" />
+          </div>
+          <div class="form-group">
+            <label>Graduation Year</label>
+            <input type="text" name="education[${educationCount}][graduationYear]" placeholder="2023" />
+          </div>
+          <button type="button" class="btn-remove" onclick="removeEducation(this)">Remove Education</button>
+        `;
+        container.appendChild(eduDiv);
+        educationCount++;
+      }
+
+      function removeEducation(btn) {
+        btn.parentElement.remove();
+      }
+    </script>
+  </body>
+</html>
