@@ -5,6 +5,9 @@ A full-stack web application for creating and managing professional resumes. Bui
 
 This project provides a complete CRUD system for resume management with an intuitive interface. Users can create, view, edit, and delete resumes with sections for personal information, work experience, education, and skills.
 
+## Live Link:
+https://infr3120-fall25-project-yjny.onrender.com/ 
+
 ## Key Features
 
 - Create resumes with dynamic form fields
