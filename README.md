@@ -124,4 +124,4 @@ https://infr3120-fall25-project-yjny.onrender.com/
 
 ---
 
-**INFR3120 | November 2025**
+**INFR3120 | November 2024**
