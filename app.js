@@ -13,7 +13,7 @@ var resumesRouter = require("./routes/resumes");
 const session = require("express-session");
 
 const passport = require("passport");
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 
 var app = express();
 
@@ -30,10 +30,8 @@ app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/resumes", resumesRouter);
-
+// ------SESSIONS-------
+// express-session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -44,6 +42,35 @@ app.use(
     },
   })
 );
+// Make sure to add visit count logic to route
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    const user = usersRouter.find((u) => u.username === username);
+    if (!user) return done(null, false, { message: "User no found" });
+    if (user.password !== password)
+      return done(null, false, { message: "Invalid password" });
+    return done(null, user);
+  })
+);
+
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser((id, done) => {
+  const user = users.find((u) => u.id === id);
+  done(null, user);
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+//TASK: Add login route,
+// TASK: Protect routes
+// -----------------
+
+app.use("/", indexRouter);
+// TASK: Add log visits logic to /users route
+app.use("/users", usersRouter);
+app.use("/resumes", resumesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
