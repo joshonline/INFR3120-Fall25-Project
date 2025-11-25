@@ -10,8 +10,9 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var resumesRouter = require("./routes/resumes");
 
+// Import user auth packages
 const session = require("express-session");
-
+const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -37,13 +38,17 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGDB_URI,
+      collectionName: "sessions",
+    }),
     cookie: {
-      maxAge: 60000,
+      maxAge: 360000,
     },
   })
 );
-// Make sure to add visit count logic to route
 
+// Define strategy
 passport.use(
   new LocalStrategy((username, password, done) => {
     const user = usersRouter.find((u) => u.username === username);
@@ -63,12 +68,11 @@ passport.deserializeUser((id, done) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-//TASK: Add login route,
+//TASK: Add users/login route, add visit count logic to route
 // TASK: Protect routes
 // -----------------
 
 app.use("/", indexRouter);
-// TASK: Add log visits logic to /users route
 app.use("/users", usersRouter);
 app.use("/resumes", resumesRouter);
 
