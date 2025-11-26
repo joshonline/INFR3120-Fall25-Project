@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
     visits = 0;
   }
   visits++;
-  res.send(`You have visited ${visits} times`);
+  //   res.send(`You have visited ${visits} times`);
 });
 
 // REGISTRATION

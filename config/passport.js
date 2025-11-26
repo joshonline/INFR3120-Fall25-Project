@@ -1,22 +1,48 @@
 const LocalStrategy = require("passport-local").Strategy;
+const User = require("../models/user");
 
-const passportConfig = (passport) => {
-  // Define strategy
+module.exports = function (passport) {
   passport.use(
-    new LocalStrategy((username, password, done) => {
-      const user = usersRouter.find((u) => u.username === username);
-      if (!user) return done(null, false, { message: "User no found" });
-      if (user.password !== password)
-        return done(null, false, { message: "Invalid password" });
-      return done(null, user);
-    })
+    new LocalStrategy(
+      { usernameField: "username" },
+      async (username, password, done) => {
+        try {
+          // Find user in MongoDB by username
+          const user = await User.findOne({ username: username });
+
+          // User not found
+          if (!user) {
+            return done(null, false, { message: "User not found" });
+          }
+
+          // Check if password matches (using bcrypt comparison from User model)
+          const isMatch = await user.comparePassword(password);
+
+          if (!isMatch) {
+            return done(null, false, { message: "Invalid password" });
+          }
+
+          // Authentication successful
+          return done(null, user);
+        } catch (err) {
+          return done(err);
+        }
+      }
+    )
   );
 
-  passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser((id, done) => {
-    const user = users.find((u) => u.id === id);
-    done(null, user);
+  // Serialize user - store user ID in session
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+
+  // Deserialize user - retrieve user from database using ID from session
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
   });
 };
-
-module.exports = passportConfig;

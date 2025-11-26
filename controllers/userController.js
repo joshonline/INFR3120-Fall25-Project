@@ -88,7 +88,7 @@ exports.login_post = passport.authenticate("local", {
 
 // POST users/logout
 exports.logout = (req, res) => {
-    //TASK: Add session destrution on logout
+  //TASK: Add session destrution on logout
   req.logout((err) => {
     if (err) {
       console.error(err);
@@ -96,3 +96,11 @@ exports.logout = (req, res) => {
     res.redirect("/");
   });
 };
+
+// GET /profile
+exports.profile_get = (req, res) => {
+  try {
+    res.render("users/profile", { title: "Profile Page", error: error });
+  } catch (err) {}
+};
+// POST /profile

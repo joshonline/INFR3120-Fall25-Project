@@ -42,18 +42,23 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      maxAge: 360000,
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
 
-require('./config/passport')(passport)
+require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 //TASK: Add users/login route, add visit count logic to route
 // TASK: Protect routes
 // -----------------
+
+req.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
