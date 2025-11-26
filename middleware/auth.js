@@ -1,5 +1,3 @@
-// middleware/auth.js
-
 // Check if user is authenticated
 exports.ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {

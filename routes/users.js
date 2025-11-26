@@ -3,16 +3,17 @@ var router = express.Router();
 const userController = require("../controllers/userController");
 // GET users/
 router.get("/", (req, res) => {
-  visits = req.session.visits;
+  let visits = req.session.visits;
   if (!visits) {
     visits = 0;
   }
   visits++;
-  //   res.send(`You have visited ${visits} times`);
+  // res.send(`You have visited ${visits} times`);
+  res.redirect('/login')
 });
 
 // REGISTRATION
-router.post("/register", userController.register_get);
+router.get("/register", userController.register_get);
 router.post("/register", userController.register_post);
 
 // LOGIN
