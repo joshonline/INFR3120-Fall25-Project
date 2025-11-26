@@ -14,7 +14,6 @@ var resumesRouter = require("./routes/resumes");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 
 var app = express();
 
@@ -39,7 +38,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGDB_URI,
+      mongoUrl: process.env.MONGODB_URI,
       collectionName: "sessions",
     }),
     cookie: {
@@ -48,23 +47,7 @@ app.use(
   })
 );
 
-// Define strategy
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    const user = usersRouter.find((u) => u.username === username);
-    if (!user) return done(null, false, { message: "User no found" });
-    if (user.password !== password)
-      return done(null, false, { message: "Invalid password" });
-    return done(null, user);
-  })
-);
-
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  const user = users.find((u) => u.id === id);
-  done(null, user);
-});
-
+require('./config/passport')(passport)
 app.use(passport.initialize());
 app.use(passport.session());
 
