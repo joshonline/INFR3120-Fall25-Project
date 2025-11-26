@@ -6,6 +6,8 @@ var logger = require("morgan");
 var methodOverride = require('method-override');
 const connectDB = require("./config/database");
 
+const expressLayouts = require('express-ejs-layouts');
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var resumesRouter = require("./routes/resumes")
@@ -17,6 +19,10 @@ connectDB();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+//
+app.use(expressLayouts)
+app.set('layout', 'layout')
 
 app.use(logger("dev"));
 app.use(express.json());

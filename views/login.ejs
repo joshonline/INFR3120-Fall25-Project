@@ -17,6 +17,9 @@
         <button type="submit">Login</button>
     </form>
 
+    <!--If_Error-->
+    <% if (error) { %><p style="color:red;"><%= error %></p><% } %>
+
     <footer>
         <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
     </footer>
