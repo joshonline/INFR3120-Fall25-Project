@@ -2,7 +2,14 @@ var express = require("express");
 var router = express.Router();
 const userController = require("../controllers/userController");
 // GET users/
-router.get("/", userController);
+router.get("/", (req, res) => {
+  visits = req.session.visits;
+  if (!visits) {
+    visits = 0;
+  }
+  visits++;
+  res.send(`You have visited ${visits} times`);
+});
 
 // REGISTRATION
 router.post("/register", userController.register_get);
