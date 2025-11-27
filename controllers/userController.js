@@ -33,9 +33,9 @@ exports.register_post = async (req, res) => {
   }
 
   try {
-    // Check if user already exists
+    // Check if username OR email already exists
     const existingUser = await User.findOne({
-      $or: [{ username: username }, { email: email }],
+      $or: [{ username }, { email }],
     });
 
     if (existingUser) {
@@ -71,55 +71,44 @@ exports.register_post = async (req, res) => {
   }
 };
 
-// Get users/login
+// GET users/login
 exports.login_get = (req, res) => {
   res.render("users/login", {
     title: "Login",
-    // error: req.flash("error")
-    error: "Error logging in. Please try again.",
+    error: null,
   });
 };
 
 // POST users/login
 exports.login_post = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
+    if (err) return next(err);
 
     if (!user) {
-      // Authentication failed - re-render with error
       return res.render("users/login", {
         title: "Login",
-        error: info.message || "Invalid username or password",
+        error: info?.message || "Invalid username or password",
       });
     }
 
-    // Success - log the user in
     req.login(user, (err) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       return res.redirect("/resumes");
     });
   })(req, res, next);
 };
 
-// TASK: Consider incorporating passport's own successRedirect and failureRedirect for login post
-// exports.login_post = passport.authenticate("local", {
-//   successRedirect: "/resumes",
-//   failureRedirect: "/users/login",
-//   // failureFlash: true,
-// });
-
-// POST users/logout
-exports.logout = (req, res) => {
-  // destory session with passport
+// destroys session + clears cookie
+exports.logout = (req, res, next) => {
   req.logout((err) => {
-    if (err) {
-      console.error(err);
-    }
-    res.redirect("/");
+    if (err) return next(err);
+
+    req.session.destroy((err) => {
+      if (err) return next(err);
+
+      res.clearCookie("connect.sid");
+      res.redirect("/users/login");
+    });
   });
 };
 
@@ -127,8 +116,6 @@ exports.logout = (req, res) => {
 exports.profile_get = (req, res) => {
   res.render("users/profile", {
     title: "Profile Page",
-    error: error,
+    error: null,
   });
 };
-// POST /profile
-// TASK: add profile update logic
