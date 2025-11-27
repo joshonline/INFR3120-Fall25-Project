@@ -1,9 +1,9 @@
 // Check if user is authenticated
-exports.ensureAuthenticated = (req, res, next) => {
+exports.ensureAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/users/login");
+  return res.redirect("/users/login");
 };
 
 // Check if user is guest (not authenticated)
