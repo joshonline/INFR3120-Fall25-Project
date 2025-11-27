@@ -6,13 +6,8 @@
     <!-- <link rel="stylesheet" href="../test/test.css" /> -->
   </head>
   <body>
-    <header>
-      <h1><%= title %></h1>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/create">Create Resume</a>
-      </nav>
-    </header>
+    <%- include('partials/nav') %>
+
 
     <main>
       <% if (resumes && resumes.length > 0) { %>
@@ -71,8 +66,7 @@
       <% } %>
     </main>
 
-    <footer>
-      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
-    </footer>
+   <%- include('partials/footer') %>
+
   </body>
 </html>

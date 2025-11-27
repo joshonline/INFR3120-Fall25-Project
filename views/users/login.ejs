@@ -6,6 +6,7 @@
     <title><%= title %></title>
 </head>
 <body>
+<%- include('../partials/nav') %>
 
     <h1>Login</h1>
 
@@ -36,8 +37,7 @@
         <p style="color:red;"><%= error %></p>
     <% } %>
 
-    <footer>
-        <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
-    </footer>
+    <%- include('../partials/footer') %>
+
 </body>
 </html>

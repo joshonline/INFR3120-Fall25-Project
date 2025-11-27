@@ -156,15 +156,10 @@
       }
     </style>
   </head>
+  
   <body>
-    <header>
-      <h1><%= title %></h1>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/resumes">All Resumes</a>
-        <a href="/resumes/new">Create Resume</a>
-      </nav>
-    </header>
+   <%- include('partials/nav') %>
+
 
     <div class="form-container">
       <% if (errors) { %>
@@ -409,9 +404,8 @@
       </form>
     </div>
 
-    <footer>
-      <p>&copy; <%= new Date().getFullYear() %> Resume Builder</p>
-    </footer>
+    <%- include('partials/footer') %>
+
 
     <script>
       let experienceCount = <%= resume && resume.experience ? resume.experience.length : 0 %>;
