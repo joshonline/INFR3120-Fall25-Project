@@ -6,14 +6,8 @@
     
   </head>
   <body>
-    <header>
-      <h1>📄 Resume Details</h1>
-      <nav>
-        <a href="/">🏠 Home</a>
-        <a href="/resumes">📋 All Resumes</a>
-        <a href="/resumes/new">➕ Create Resume</a>
-      </nav>
-    </header>
+    <%- include('partials/nav') %>
+
 
     <div class="page-container">
       <!-- Main Resume Content -->
@@ -193,8 +187,7 @@
       </div>
     </div>
 
-    <footer>
-      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
-    </footer>
+    <%- include('partials/footer') %>
+
   </body>
 </html>

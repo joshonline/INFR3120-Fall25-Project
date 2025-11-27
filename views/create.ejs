@@ -5,21 +5,13 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <header>
-      <img src="/images/CV.png" alt="Webpage Logo" class="logo">
-      <h1>Create Resume</h1>
-      <nav>
-        <a href="/">Home</a>
-        <a href="/create">Create Resume</a>
-      </nav>
-    </header>
+    <%- include('partials/nav') %>
+
     <h1>Start a New Resume</h1>
     
 
 
+<%- include('partials/footer') %>
 
-    <footer>
-      <p>&copy; <%= new Date().getFullYear() %> <%= title %></p>
-    </footer>
   </body>
 </html>

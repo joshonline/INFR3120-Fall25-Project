@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var resumeController = require("../controllers/resumeController");
+const express = require("express");
+const router = express.Router();
+const resumeController = require("../controllers/resumeController");
 const { ensureAuth } = require("../middleware/auth");
 
 // CREATE
@@ -16,6 +16,6 @@ router.get("/:id/edit", ensureAuth, resumeController.resume_update_get);
 router.put("/:id", ensureAuth, resumeController.resume_update_post);
 
 // DELETE
-router.put("/:id/delete", ensureAuth, resumeController.resume_delete);
+router.delete("/:id/delete", ensureAuth, resumeController.resume_delete);
 
 module.exports = router;
