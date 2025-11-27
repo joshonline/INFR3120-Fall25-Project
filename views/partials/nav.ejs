@@ -1,0 +1,24 @@
+<header>
+  <img src="/images/CV.png" alt="Webpage Logo" class="logo">
+  <h1>Resume Builder</h1>
+
+  <nav>
+    <% if (!user) { %>
+      <!-- GUEST NAV -->
+      <a href="/users/login">Login</a>
+    <% } else { %>
+      <!-- AUTHENTICATED NAV -->
+      <span>Welcome, <%= user.email %></span>
+      <a href="/users/logout">Logout</a>
+    <% } %>
+
+    <!-- Public links -->
+    <a href="/">Home</a>
+
+    <!-- Protected -->
+    <% if (user) { %>
+      <a href="/resumes/new">Create Resume</a>
+      <a href="/resumes">All Resumes</a>
+    <% } %>
+  </nav>
+</header>
