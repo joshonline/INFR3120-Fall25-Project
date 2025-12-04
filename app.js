@@ -6,6 +6,8 @@ const logger = require("morgan");
 const methodOverride = require("method-override");
 const connectDB = require("./config/database");
 
+const cors = require("cors");
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const resumesRouter = require("./routes/resumes");
@@ -55,11 +57,23 @@ app.use(express.static(path.join(__dirname, "public")));
 // TASK: Protect routes
 // -----------------
 
-app.use((req, res, next) => {
-  res.locals.user = req.user ? req.user : null;
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.user = req.user ? req.user : null;
+//   next();
+// });
 
+// CORS
+app.use(
+  cors({
+    origin: [
+      "http://localhost:4200",
+      // 'https://our-render-link' // Will add once deployed
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
