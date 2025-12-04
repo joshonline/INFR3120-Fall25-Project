@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { signal } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,7 +16,6 @@ import { AuthService } from '../../../services/auth';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
