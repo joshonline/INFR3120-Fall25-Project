@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router();
 const userController = require("../controllers/userController");
+const { requireAuth, requireGuest } = require("../middleware/auth");
+
 // GET users/
 router.get("/", (req, res) => {
   let visits = req.session.visits;
@@ -21,6 +23,8 @@ router.get("/login", userController.login_get);
 router.post("/login", userController.login_post);
 
 // LOGOUT
-router.get("/logout", userController.logout);
+router.get("/logout", requireAuth, userController.logout);
+router.get("/profile", requireAuth, userController.getProfile);
+router.put("/profile", requireAuth, userController.updateProfile);
 
 module.exports = router;
