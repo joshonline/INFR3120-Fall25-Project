@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <span class="logo">Resume Builder</span>
+
+  <span class="spacer"></span>
+
+  <a mat-button routerLink="/">Home</a>
+
+  <a mat-button *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+  <a mat-button *ngIf="!isLoggedIn" routerLink="/register">Register</a>
+
+  <a mat-button *ngIf="isLoggedIn" routerLink="/resumes">My Resumes</a>
+  <button mat-button *ngIf="isLoggedIn" (click)="logout()">Logout</button>
+</mat-toolbar>
