@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { signal } from '@angular/core'
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +17,7 @@ import { AuthService } from '../../../services/auth';
   imports: [
     CommonModule,
     FormsModule,
+    RouterLink,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -72,6 +74,7 @@ export class Register {
     // Call auth service
     this.authService.register(this.username, this.email, this.password, this.password2).subscribe({
       next: (response) => {
+        console.log("auth")
         console.log('Registration successful:', response);
         this.loading.set(false);
         

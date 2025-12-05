@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -15,7 +16,8 @@ import { AuthService } from '../../../services/auth';
   selector: 'app-login',
   imports: [
     CommonModule,
-    FormsModule,    
+    FormsModule,   
+    RouterLink, 
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -54,6 +56,7 @@ export class Login {
     // Call auth service
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
+        console.log("auth")
         console.log('Login successful:', response);
         this.loading.set(false);
         

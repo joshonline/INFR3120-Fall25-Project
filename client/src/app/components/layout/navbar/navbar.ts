@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-// import { MatCardModule } from '@angular/material/card';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
+import { Component, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar'
+import { MatToolbar } from '@angular/material/toolbar';
+import { AuthService } from '../../../services/auth';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
-    // MatCardModule,
-    // MatFormFieldModule,
-    // MatInputModule,
+    CommonModule,
+    RouterLink,
     MatButtonModule,
     MatToolbar
   ],
@@ -22,13 +20,18 @@ import { MatToolbar } from '@angular/material/toolbar'
 export class Navbar {
   isLoggedIn = false;
 
-  constructor(private router: Router) {
-    this.isLoggedIn = !!localStorage.getItem('token');
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+    
+    effect(() => {
+      this.isLoggedIn = this.authService.isAuthenticated();
+    });
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.isLoggedIn = false;
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

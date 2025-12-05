@@ -4,6 +4,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../enviornments/environments';
 
 // Interface for User object
 export interface User {
@@ -26,7 +29,8 @@ interface AuthResponse {
 export class AuthService {
   // API URL
   // TASK: change 'http://localhost:3000' to backend url for production
-  private apiUrl = 'http://localhost:3000/api/users';
+  private apiUrl = `${environment.apiUrl}/users`
+  private platformId = inject(PLATFORM_ID);
   
   // BehaviorSubject to track authentication state
   private currentUserSubject = new BehaviorSubject<User | null>(null);
@@ -37,32 +41,38 @@ export class AuthService {
   
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) {
     this.checkAuth();
   }
   
   // Check if user is authenticated by validating stored token
   private checkAuth(): void {
-    const token = this.getToken();
-    const userStr = localStorage.getItem('currentUser');
-    
-    if (token && userStr) {
-      try {
-        const user = JSON.parse(userStr);
-        this.currentUserSubject.next(user);
-        this.isAuthenticated.set(true);
-      } catch (err) {
-        // Invalid stored data, clear it
-        this.clearAuth();
+    if (isPlatformBrowser(this.platformId)){
+      const token = this.getToken();
+      const userStr = localStorage.getItem('currentUser');
+      
+      if (token && userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          this.currentUserSubject.next(user);
+          this.isAuthenticated.set(true);
+        } catch (err) {
+          // Invalid stored data, clear it
+          this.clearAuth();
+        }
       }
     }
   }
   
   // Get stored JWT token
   getToken(): string | null {
+  if (isPlatformBrowser(this.platformId)) {
     return localStorage.getItem('token');
   }
+  return null;
+}
+
   
   // Get current user value (not observable)
   getCurrentUser(): User | null {
@@ -122,10 +132,11 @@ export class AuthService {
   
   // Set authentication data
   private setAuth(token: string, user: User): void {
+    if (isPlatformBrowser(this.platformId)) {
     // Store token and user in localStorage
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
-    
+    }
     // Update state
     this.currentUserSubject.next(user);
     this.isAuthenticated.set(true);
@@ -134,8 +145,10 @@ export class AuthService {
   //Clear authentication data
 
   private clearAuth(): void {
+    if (isPlatformBrowser(this.platformId)) {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+    }
     this.currentUserSubject.next(null);
     this.isAuthenticated.set(false);
   }
