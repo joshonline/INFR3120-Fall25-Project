@@ -17,10 +17,10 @@ export const routes: Routes = [
   { path: 'register', component: Register, canActivate: [guestGuard] },
 
   // Resumes
-  { path: 'resumes', component: ResumeList, canActivate: [guestGuard] },
-  { path: 'resumes/new', component: ResumeForm, canActivate: [guestGuard] },       
-  { path: 'resumes/:id', component: ResumeDetail, canActivate: [guestGuard] },    
-  { path: 'resumes/:id/edit', component: ResumeForm, canActivate: [guestGuard] },
+  { path: 'resumes', component: ResumeList, canActivate: [authGuard] },
+  { path: 'resumes/new', component: ResumeForm, canActivate: [authGuard] },       
+  { path: 'resumes/:id', component: ResumeDetail, canActivate: [authGuard] },    
+  { path: 'resumes/:id/edit', component: ResumeForm, canActivate: [authGuard] },
 
   // Wildcard - home redirect
   { path: '**', redirectTo:''}

@@ -56,6 +56,7 @@ export class Login {
     // Call auth service
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
+        console.log("auth")
         console.log('Login successful:', response);
         this.loading.set(false);
         

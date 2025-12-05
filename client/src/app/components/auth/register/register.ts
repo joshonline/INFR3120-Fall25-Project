@@ -74,6 +74,7 @@ export class Register {
     // Call auth service
     this.authService.register(this.username, this.email, this.password, this.password2).subscribe({
       next: (response) => {
+        console.log("auth")
         console.log('Registration successful:', response);
         this.loading.set(false);
         
