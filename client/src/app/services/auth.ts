@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 // Interface for User object
 export interface User {
@@ -37,13 +39,17 @@ export class AuthService {
   
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    if (isPlatformBrowser(this.platformId)) {
     this.checkAuth();
+    }
   }
   
   // Check if user is authenticated by validating stored token
   private checkAuth(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     const token = this.getToken();
     const userStr = localStorage.getItem('currentUser');
     
@@ -61,8 +67,12 @@ export class AuthService {
   
   // Get stored JWT token
   getToken(): string | null {
+  if (isPlatformBrowser(this.platformId)) {
     return localStorage.getItem('token');
   }
+  return null;
+}
+
   
   // Get current user value (not observable)
   getCurrentUser(): User | null {
@@ -122,10 +132,11 @@ export class AuthService {
   
   // Set authentication data
   private setAuth(token: string, user: User): void {
+    if (!isPlatformBrowser(this.platformId)) {
     // Store token and user in localStorage
     localStorage.setItem('token', token);
     localStorage.setItem('currentUser', JSON.stringify(user));
-    
+    }
     // Update state
     this.currentUserSubject.next(user);
     this.isAuthenticated.set(true);
@@ -134,8 +145,10 @@ export class AuthService {
   //Clear authentication data
 
   private clearAuth(): void {
+    if (isPlatformBrowser(this.platformId)) {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+    }
     this.currentUserSubject.next(null);
     this.isAuthenticated.set(false);
   }
