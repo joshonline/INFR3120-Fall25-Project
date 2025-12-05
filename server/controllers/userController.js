@@ -297,7 +297,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-
+    console.log("logging in - server-side");
     // Validation
     if (!username || !password) {
       return res.status(400).json({
@@ -330,6 +330,7 @@ exports.login = async (req, res) => {
     const token = generateToken(user);
 
     // Return success with token and user info
+    console.log("sending json response");
     res.json({
       success: true,
       message: "Login successful",
@@ -340,6 +341,7 @@ exports.login = async (req, res) => {
         email: user.email,
       },
     });
+    console.log("json response sent");
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({
