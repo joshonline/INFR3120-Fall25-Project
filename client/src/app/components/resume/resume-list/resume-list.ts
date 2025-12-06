@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-resume-list',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './resume-list.html',
-  styleUrl: './resume-list.css',
+  styleUrls: ['./resume-list.css'],
 })
 export class ResumeList {
-
   resumes: any[] = [];
   filteredResumes: any[] = [];
   searchTerm = '';
@@ -17,5 +20,4 @@ export class ResumeList {
       r.fullName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
-
 }

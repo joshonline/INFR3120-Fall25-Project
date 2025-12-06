@@ -1,7 +1,11 @@
-<h1>Your Profile</h1>
+<div class="profile-container">
+  <h1>Your Profile</h1>
 
-<div *ngIf="user">
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>Name:</strong> {{ user.fullName }}</p>
-  <p><strong>Member Since:</strong> {{ user.createdAt | date }}</p>
+  <div *ngIf="user">
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Name:</strong> {{ user.fullName }}</p>
+    <p><strong>Account Created:</strong> {{ user.createdAt | date }}</p>
+  </div>
+
+  <button (click)="logout()">Logout</button>
 </div>

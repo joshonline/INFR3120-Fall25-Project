@@ -1,12 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';   // for *ngFor and date pipe
+import { FormsModule } from '@angular/forms';     // for ngModel
+import { RouterModule } from '@angular/router';   // for routerLink
+
 import { ResumeService } from '../../services/resume';
 import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.html',
+  styleUrls: ['./home.css'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ]
 })
 export class Home implements OnInit {
 
