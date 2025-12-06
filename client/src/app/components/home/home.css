@@ -1,0 +1,55 @@
+.home-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.resume-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.resume-card {
+  padding: 10px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.error-message {
+  color: red;
+  padding: 10px 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+}
+
+.date-info {
+  color: #777;
+  font-size: 14px;
+}
+
+mat-card-actions button {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* spacing between icon and text */
+}
+
+.action-icon {
+  font-size: 18px;
+}

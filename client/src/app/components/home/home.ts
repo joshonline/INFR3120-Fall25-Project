@@ -1,10 +1,14 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ResumeService, Resume } from '../../services/resume';
 import { AuthService } from '../../services/auth';
@@ -17,28 +21,31 @@ import { AuthService } from '../../services/auth';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    RouterLink,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule
   ]
 })
 export class Home implements OnInit {
-  // Use inject() instead of constructor injection
+
   private resumeService = inject(ResumeService);
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  // --- STATE ---
   resumes = signal<Resume[]>([]);
   filteredResumes = signal<Resume[]>([]);
   searchTerm = '';
   loading = signal(false);
+  error = signal<string | null>(null);
 
-  // Expose auth state to template
   isLoggedIn = this.authService.isAuthenticated;
 
   ngOnInit() {
-    // Only load resumes if logged in
     if (this.isLoggedIn()) {
       this.loadResumes();
     }
@@ -46,6 +53,7 @@ export class Home implements OnInit {
 
   loadResumes() {
     this.loading.set(true);
+    this.error.set(null);
 
     this.resumeService.getResumes().subscribe({
       next: (response) => {
@@ -56,12 +64,14 @@ export class Home implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        console.error('Error loading resumes:', err);
+        console.error(err);
+        this.error.set('Failed to load resumes.');
         this.loading.set(false);
       }
     });
   }
 
+  // --- SEARCH FILTER ---
   filter() {
     const term = this.searchTerm.toLowerCase().trim();
 
@@ -71,31 +81,26 @@ export class Home implements OnInit {
     }
 
     const filtered = this.resumes().filter(resume => {
-      const nameMatch = resume.fullName.toLowerCase().includes(term);
-      const emailMatch = resume.email?.toLowerCase().includes(term);
-      const skillsMatch = resume.skills?.some(skill =>
-      skill.toLowerCase().includes(term)
-      );
+      const name = resume.fullName?.toLowerCase() || '';
+      const email = resume.email?.toLowerCase() || '';
+      const skills = resume.skills?.join(' ').toLowerCase() || '';
 
-      return nameMatch || emailMatch || skillsMatch;
+      return name.includes(term) || email.includes(term) || skills.includes(term);
     });
 
     this.filteredResumes.set(filtered);
   }
 
-  navigateToResumes() {
-    if (this.isLoggedIn()) {
-      this.router.navigate(['/resumes']);
-    } else {
-      this.router.navigate(['/login']);
-    }
+  // --- NAVIGATION ---
+  createNew() {
+    this.router.navigate(['/resumes/new']);
   }
 
-  navigateToLogin() {
-    this.router.navigate(['/login']);
+  viewResume(id: string) {
+    this.router.navigate(['/resumes', id]);
   }
 
-  navigateToRegister() {
-    this.router.navigate(['/register']);
+  editResume(id: string) {
+    this.router.navigate(['/resumes', id, 'edit']);
   }
 }

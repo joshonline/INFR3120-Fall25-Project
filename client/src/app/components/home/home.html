@@ -1,25 +1,71 @@
-<h1>Home</h1>
+<div class="home-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Home</h1>
 
-<div class="home-header">
-  <input 
-    type="text"
-    placeholder="Search resumes..."
-    [(ngModel)]="searchTerm"
-    (input)="filter()"
-  >
+    <button mat-raised-button color="primary" (click)="createNew()">
+      <mat-icon>add</mat-icon>
+      Create Resume
+    </button>
+  </div>
 
-  <button routerLink="/resumes/new">Create Resume</button>
-</div>
+  <!-- Search Field -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search resumes</mat-label>
+    <input
+      matInput
+      [(ngModel)]="searchTerm"
+      (input)="filter()"
+      placeholder="Search by name, email, or skill"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
 
-<h2>Your Resumes</h2>
+  <!-- Loading -->
+  <div *ngIf="loading()" class="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading resumes...</p>
+  </div>
 
-<div class="resume-list">
-  <div class="resume-card" *ngFor="let resume of filteredResumes">
-    <h3>{{ resume.fullName }}</h3>
-    <p><strong>Updated:</strong> {{ resume.updatedAt | date }}</p>
-    <p><strong>Skills:</strong> {{ resume.skills.join(', ') }}</p>
+  <!-- Error -->
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
 
-    <button [routerLink]="['/resumes', resume._id]">View</button>
-    <button [routerLink]="['/resumes', resume._id, 'edit']">Edit</button>
+  <!-- Empty state -->
+  <div *ngIf="!loading() && filteredResumes().length === 0" class="empty-state">
+    <mat-icon>description</mat-icon>
+    <h2>No matching resumes</h2>
+    <p>Try a different search term.</p>
+  </div>
+
+  <!-- Resume Grid -->
+  <div *ngIf="!loading() && filteredResumes().length > 0" class="resume-grid">
+    <mat-card *ngFor="let resume of filteredResumes()" class="resume-card">
+      <mat-card-header>
+        <mat-card-title>{{ resume.fullName }}</mat-card-title>
+        <mat-card-subtitle>{{ resume.email }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="date-info">
+          <strong>Updated:</strong> {{ resume.updatedAt | date : 'short' }}
+        </p>
+        <p><strong>Skills:</strong> {{ resume.skills.join(', ') }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+      <button mat-button color="primary" [routerLink]="['/resumes', resume._id]">
+      <mat-icon class="action-icon">visibility</mat-icon>
+      <span>View</span>
+      </button>
+
+      <button mat-button color="accent" [routerLink]="['/resumes', resume._id, 'edit']">
+      <mat-icon class="action-icon">edit</mat-icon>
+      <span>Edit</span>
+      </button>
+      </mat-card-actions>
+
+    </mat-card>
   </div>
 </div>
