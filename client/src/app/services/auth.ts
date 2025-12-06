@@ -79,6 +79,10 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
   
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`);
+  }
+
   // Register new user
   register(username: string, email: string, password: string, password2: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, {

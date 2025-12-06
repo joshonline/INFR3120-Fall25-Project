@@ -1,1 +1,25 @@
-<p>home works!</p>
+<h1>Home</h1>
+
+<div class="home-header">
+  <input 
+    type="text"
+    placeholder="Search resumes..."
+    [(ngModel)]="searchTerm"
+    (input)="filter()"
+  >
+
+  <button routerLink="/resumes/new">Create Resume</button>
+</div>
+
+<h2>Your Resumes</h2>
+
+<div class="resume-list">
+  <div class="resume-card" *ngFor="let resume of filteredResumes">
+    <h3>{{ resume.fullName }}</h3>
+    <p><strong>Updated:</strong> {{ resume.updatedAt | date }}</p>
+    <p><strong>Skills:</strong> {{ resume.skills.join(', ') }}</p>
+
+    <button [routerLink]="['/resumes', resume._id]">View</button>
+    <button [routerLink]="['/resumes', resume._id, 'edit']">Edit</button>
+  </div>
+</div>

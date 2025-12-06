@@ -59,7 +59,7 @@ interface ResumeResponse {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ResumeService {
   private apiUrl = `${environment.apiUrl}/resumes`;
