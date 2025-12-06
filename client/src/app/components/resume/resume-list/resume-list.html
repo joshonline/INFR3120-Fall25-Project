@@ -1,1 +1,11 @@
-<p>resume-list works!</p>
+<input 
+  placeholder="Search resumes..." 
+  [(ngModel)]="searchTerm"
+  (input)="filter()"
+/>
+
+<ul>
+  <li *ngFor="let r of filteredResumes">
+    <a [routerLink]="['/resumes', r._id]">{{ r.fullName }}</a>
+  </li>
+</ul>

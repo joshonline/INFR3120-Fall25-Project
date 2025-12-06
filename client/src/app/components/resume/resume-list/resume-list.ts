@@ -8,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class ResumeList {
 
+  resumes: any[] = [];
+  filteredResumes: any[] = [];
+  searchTerm = '';
+
+  filter() {
+    this.filteredResumes = this.resumes.filter(r =>
+      r.fullName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
 }

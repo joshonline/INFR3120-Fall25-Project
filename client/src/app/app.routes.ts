@@ -6,6 +6,7 @@ import { Register } from './components/auth/register/register';
 import { ResumeList } from './components/resume/resume-list/resume-list';
 import { ResumeDetail } from './components/resume/resume-detail/resume-detail';
 import { ResumeForm } from './components/resume/resume-form/resume-form';
+import { Profile } from './components/profile/profile';
 
 import { authGuard, guestGuard } from './guards/auth.guard';
 
