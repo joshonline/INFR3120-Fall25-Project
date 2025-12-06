@@ -44,12 +44,12 @@
   font-size: 14px;
 }
 
-mat-card-actions button {
+/* .mat-card-actions button {
   display: flex;
   align-items: center;
-  gap: 4px; /* spacing between icon and text */
+  gap: 4px; 
 }
 
 .action-icon {
   font-size: 18px;
-}
+} */
