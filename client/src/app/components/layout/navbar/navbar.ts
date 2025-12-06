@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -20,20 +21,12 @@ import { AuthService } from '../../../services/auth';
   styleUrl: './navbar.css'
 })
 export class Navbar {
-  isLoggedIn = false;
-
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-    
-    effect(() => {
-      this.isLoggedIn = this.authService.isAuthenticated();
-    });
-  }
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  
+  isLoggedIn = this.authService.isAuthenticated;
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }
