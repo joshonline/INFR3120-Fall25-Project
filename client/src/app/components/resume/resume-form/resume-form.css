@@ -1,0 +1,33 @@
+.form-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.section-card {
+  margin-bottom: 25px;
+}
+
+.array-entry {
+  margin-bottom: 20px;
+}
+
+.skill-input {
+  width: 60%;
+}
+
+.skills-input {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.skills-list {
+  margin-top: 15px;
+}
+
+.form-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}

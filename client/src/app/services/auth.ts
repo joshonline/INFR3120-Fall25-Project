@@ -40,11 +40,14 @@ export class AuthService {
   public isAuthenticated = signal<boolean>(false);
   
   constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {
+  private http: HttpClient,
+  private router: Router,
+) {
+  if (isPlatformBrowser(this.platformId)) {
     this.checkAuth();
   }
+}
+
   
   // Check if user is authenticated by validating stored token
   private checkAuth(): void {

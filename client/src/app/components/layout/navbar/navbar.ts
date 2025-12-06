@@ -2,7 +2,8 @@ import { Component, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth';
 
 @Component({
@@ -12,7 +13,8 @@ import { AuthService } from '../../../services/auth';
     CommonModule,
     RouterLink,
     MatButtonModule,
-    MatToolbar
+    MatToolbarModule,
+    MatIconModule
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'

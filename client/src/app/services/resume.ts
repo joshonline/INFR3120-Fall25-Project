@@ -50,7 +50,7 @@ export interface Education {
   courses?: string[];
 }
 
-interface ResumeResponse {
+export interface ResumeResponse {
   success: boolean;
   message?: string;
   resume?: Resume;
