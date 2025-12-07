@@ -1,5 +1,9 @@
 <mat-toolbar color="primary" class="navbar">
-  <!-- logo for the left side -->
+  <!-- Left Section -->
+  <button mat-icon-button class="mobile-menu-btn" [matMenuTriggerFor]="mobileMenu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <span class="logo">
     <mat-icon>assignment</mat-icon>
     Resume Builder
@@ -7,21 +11,34 @@
 
   <span class="spacer"></span>
 
-  <!-- Always visible -->
-  <a mat-button routerLink="/">Home</a>
+  <!-- Desktop Navigation -->
+  <div class="nav-links">
+    <a mat-button routerLink="/">Home</a>
 
-  <!-- Guest links -->
-  <a mat-button *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
-  <a mat-button *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
+    <a mat-button *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
+    <a mat-button *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
 
-  <!-- Authenticated links -->
-  <a mat-button *ngIf="isLoggedIn()" routerLink="/resumes">
-    <mat-icon>description</mat-icon>
-    My Resumes
-  </a>
+    <a mat-button *ngIf="isLoggedIn()" routerLink="/resumes">
+      <mat-icon>description</mat-icon>
+      My Resumes
+    </a>
 
-  <button mat-button *ngIf="isLoggedIn()" (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    Logout
-  </button>
+    <button mat-button *ngIf="isLoggedIn()" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </div>
 </mat-toolbar>
+
+<!-- Mobile Menu -->
+<mat-menu #mobileMenu="matMenu">
+  <button mat-menu-item routerLink="/">Home</button>
+
+  <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/login">Login</button>
+  <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/register">Register</button>
+
+  <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/resumes">
+    My Resumes
+  </button>
+  <button mat-menu-item *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+</mat-menu>

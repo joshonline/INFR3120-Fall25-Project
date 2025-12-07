@@ -28,3 +28,34 @@
   color: #777;
   font-size: 14px;
 }
+
+@media (max-width: 600px) {
+    .resume-list-container {
+    padding: 15px;
+  }
+  .header h1 {
+    text-align: center;
+  }
+    .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .header button {
+    width: 100%;
+    justify-content: center;
+    }
+  .resume-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-card {
+    padding: 14px;
+  }
+
+  mat-card-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

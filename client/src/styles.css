@@ -67,3 +67,46 @@ button {
     gap: 10px;
   }
 }
+
+/* ====== GLOBAL RESPONSIVENESS ====== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+  }
+
+  button[mat-raised-button],
+  button[mat-button] {
+    width: 100%;
+  }
+
+  mat-card {
+    margin: 0 0 12px 0;
+  }
+
+  .resume-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .search-field {
+    width: 100% !important;
+  }
+
+  .mat-toolbar {
+    flex-wrap: wrap;
+    text-align: center;
+    padding: 10px;
+  }
+}
+
+/* even smaller mobile - 480px */
+@media (max-width: 480px) {
+  h1, h2, h3 {
+    font-size: 1.3rem;
+  }
+
+  .logo {
+    font-size: 1.2rem !important;
+  }
+}

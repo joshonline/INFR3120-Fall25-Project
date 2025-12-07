@@ -1,19 +1,51 @@
-mat-toolbar {
+/* Toolbar structure */
+.navbar {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   padding: 0 20px;
 }
 
 .logo {
   font-weight: bold;
-  font-size: 22px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .spacer {
   flex: 1;
 }
 
-a[mat-button], button[mat-button] {
+/* Desktop nav links */
+.nav-links a,
+.nav-links button {
   font-size: 15px;
-  margin-left: 8px;
+  margin-left: 10px;
+}
+
+/* Mobile menu button hidden on desktop */
+.mobile-menu-btn {
+  display: none;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  /* Show mobile toggle button */
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  /* Hide desktop links */
+  .nav-links {
+    display: none;
+  }
+
+  .navbar {
+    padding: 0 10px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
 }

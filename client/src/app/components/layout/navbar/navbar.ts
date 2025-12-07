@@ -6,6 +6,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth';
 import { inject } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +17,8 @@ import { inject } from '@angular/core';
     RouterLink,
     MatButtonModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'

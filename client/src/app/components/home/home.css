@@ -16,7 +16,7 @@
 
 .resume-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
 }
 
@@ -53,3 +53,31 @@
 .action-icon {
   font-size: 18px;
 } */
+
+/* Mobile */
+@media (max-width: 600px) {
+    
+    .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .header button {
+    width: 100%;
+    justify-content: center;
+    }
+  .resume-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-card {
+    padding: 14px;
+  }
+
+  mat-card-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
