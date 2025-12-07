@@ -1,0 +1,67 @@
+<div class="home-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>Home</h1>
+
+    <button mat-raised-button color="primary" (click)="createNew()">
+      <mat-icon>add</mat-icon>
+      Create Resume
+    </button>
+  </div>
+
+  <!-- Search Field -->
+  <mat-form-field appearance="outline" class="search-field">
+    <input
+      matInput
+      [(ngModel)]="searchTerm"
+      (input)="filter()"
+      placeholder="Search by name, email, or skill"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" class="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading resumes...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading() && filteredResumes().length === 0" class="empty-state">
+    <mat-icon>description</mat-icon>
+    <h2>No matching resumes</h2>
+    <p>Try a different search term.</p>
+  </div>
+
+  <!-- Resume Grid -->
+  <div *ngIf="!loading() && filteredResumes().length > 0" class="resume-grid">
+    <mat-card *ngFor="let resume of filteredResumes()" class="resume-card">
+      <mat-card-header>
+        <mat-card-title>{{ resume.fullName }}</mat-card-title>
+        <mat-card-subtitle>{{ resume.email }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="date-info"><strong>Updated:</strong> {{ resume.updatedAt | date: 'short' }}</p>
+        <p><strong>Skills:</strong> {{ resume.skills.join(', ') }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="viewResume(resume._id!)">
+          <mat-icon fontIcon="visibility"></mat-icon>
+          View
+        </button>
+
+        <button mat-button color="accent" (click)="editResume(resume._id!)">
+          <mat-icon fontIcon="edit"></mat-icon>
+          Edit
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

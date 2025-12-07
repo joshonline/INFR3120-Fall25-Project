@@ -1,0 +1,44 @@
+.auth-card {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 25px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.switch-link {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.error {
+  background: #ffebee;
+  padding: 10px;
+  border-radius: 6px;
+  color: #b71c1c;
+  margin-bottom: 20px;
+}
+
+.spinner {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .auth-card {
+    width: 100%;
+    margin: 0 10px;
+    padding: 20px;
+  }
+
+  button[mat-raised-button] {
+    width: 100%;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}

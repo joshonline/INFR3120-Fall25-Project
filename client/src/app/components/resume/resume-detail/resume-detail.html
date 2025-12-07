@@ -1,0 +1,94 @@
+<div class="detail-container">
+  <div *ngIf="loading()" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Loading resume...</p>
+  </div>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+    <button mat-raised-button (click)="goBack()">Back to List</button>
+  </div>
+
+  <!-- Resume content -->
+  <div *ngIf="!loading() && !error() && resume()" class="resume-content">
+    <div class="actions no-print">
+      <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+      <div class="action-group">
+        <button mat-raised-button color="primary" (click)="printResume()">
+          <mat-icon>print</mat-icon>
+          Print
+        </button>
+        <button mat-raised-button color="accent" (click)="editResume()">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteResume()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <mat-card class="resume-card">
+      <div class="resume-header">
+        <h1>{{ resume()!.fullName }}</h1>
+        <div class="contact-info">
+          <span *ngIf="resume()!.email">
+            <mat-icon>email</mat-icon>
+            {{ resume()!.email }}
+          </span>
+          <span *ngIf="resume()!.phone">
+            <mat-icon>phone</mat-icon>
+            {{ resume()!.phone }}
+          </span>
+          <span *ngIf="resume()!.location">
+            <mat-icon>location_on</mat-icon>
+            {{ resume()!.location }}
+          </span>
+        </div>
+      </div>
+
+      <div *ngIf="resume()!.summary" class="section">
+        <h2>Professional Summary</h2>
+        <p>{{ resume()!.summary }}</p>
+      </div>
+
+      <div *ngIf="resume()!.experience.length > 0" class="section">
+        <h2>Work Experience</h2>
+        <div *ngFor="let exp of resume()!.experience" class="entry">
+          <h3>{{ exp.title }}</h3>
+          <div class="entry-meta">
+            <span>{{ exp.company }}</span>
+            <span *ngIf="exp.startDate || exp.endDate">
+              {{ exp.startDate }} - {{ exp.endDate }}
+            </span>
+          </div>
+          <p *ngIf="exp.description">{{ exp.description }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="resume()!.education.length > 0" class="section">
+        <h2>Education</h2>
+        <div *ngFor="let edu of resume()!.education" class="entry">
+          <h3>{{ edu.degree }}</h3>
+          <div class="entry-meta">
+            <span>{{ edu.school }}</span>
+            <span *ngIf="edu.graduationYear">Class of {{ edu.graduationYear }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="resume()!.skills.length > 0" class="section">
+        <h2>Skills</h2>
+        <mat-chip-set class="skills-list">
+          <mat-chip *ngFor="let skill of resume()!.skills">
+            {{ skill }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </mat-card>
+  </div>
+</div>

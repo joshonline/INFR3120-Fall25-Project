@@ -1,0 +1,76 @@
+.form-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.section-card {
+  margin-bottom: 25px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.date-row {
+  display: flex;
+  gap: 20px;
+}
+
+.date-row mat-form-field {
+  flex: 1;
+}
+
+.skills-input {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.skill-input {
+  flex: 1;
+}
+
+.form-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* --- MOBILE BREAKPOINTS --- */
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  .date-row {
+    flex-direction: column;
+  }
+
+  .skills-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  mat-card-title {
+    font-size: 1.1rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}

@@ -1,0 +1,215 @@
+<div class="form-container">
+  <h1>{{ isEditMode ? 'Edit Resume' : 'Create New Resume' }}</h1>
+
+  <div *ngIf="error()" class="error-message">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="loading() && isEditMode" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Loading resume...</p>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" *ngIf="!loading() || !isEditMode">
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Personal Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name *</mat-label>
+          <input matInput [(ngModel)]="fullName" name="fullName" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" [(ngModel)]="email" name="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone</mat-label>
+          <input matInput [(ngModel)]="phone" name="phone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Location</mat-label>
+          <input matInput [(ngModel)]="location" name="location" placeholder="City, State" />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Professional Summary</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Summary</mat-label>
+          <textarea matInput [(ngModel)]="summary" name="summary" rows="4"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Work Experience -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Work Experience</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let exp of experience; let i = index" class="array-entry">
+          <h3>Position {{ i + 1 }}</h3>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Job Title *</mat-label>
+            <input matInput [(ngModel)]="exp.title" [name]="'expTitle' + i" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Company</mat-label>
+            <input matInput [(ngModel)]="exp.company" [name]="'expCompany' + i" />
+          </mat-form-field>
+
+          <div class="date-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Start Date</mat-label>
+              <input
+                matInput
+                [(ngModel)]="exp.startDate"
+                [name]="'expStart' + i"
+                placeholder="Jan 2020"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>End Date</mat-label>
+              <input
+                matInput
+                [(ngModel)]="exp.endDate"
+                [name]="'expEnd' + i"
+                placeholder="Dec 2022 or Present"
+              />
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [(ngModel)]="exp.description"
+              [name]="'expDesc' + i"
+              rows="3"
+            ></textarea>
+          </mat-form-field>
+
+          <button
+            type="button"
+            mat-stroked-button
+            color="warn"
+            (click)="removeExperience(i)"
+            *ngIf="experience.length > 1"
+          >
+            <mat-icon>remove</mat-icon>
+            Remove Position
+          </button>
+
+          <hr *ngIf="i < experience.length - 1" />
+        </div>
+
+        <button type="button" mat-stroked-button color="primary" (click)="addExperience()">
+          <mat-icon>add</mat-icon>
+          Add Another Position
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Education</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let edu of education; let i = index" class="array-entry">
+          <h3>Education {{ i + 1 }}</h3>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Degree *</mat-label>
+            <input matInput [(ngModel)]="edu.degree" [name]="'eduDegree' + i" required />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>School</mat-label>
+            <input matInput [(ngModel)]="edu.school" [name]="'eduSchool' + i" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Graduation Year</mat-label>
+            <input
+              matInput
+              [(ngModel)]="edu.graduationYear"
+              [name]="'eduYear' + i"
+              placeholder="2023"
+            />
+          </mat-form-field>
+
+          <button
+            type="button"
+            mat-stroked-button
+            color="warn"
+            (click)="removeEducation(i)"
+            *ngIf="education.length > 1"
+          >
+            <mat-icon>remove</mat-icon>
+            Remove Education
+          </button>
+
+          <hr *ngIf="i < education.length - 1" />
+        </div>
+
+        <button type="button" mat-stroked-button color="primary" (click)="addEducation()">
+          <mat-icon>add</mat-icon>
+          Add Another Education
+        </button>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>Skills</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="skills-input">
+          <mat-form-field appearance="outline" class="skill-input">
+            <mat-label>Add Skill</mat-label>
+            <input
+              matInput
+              [(ngModel)]="skillInput"
+              name="skillInput"
+              (keyup.enter)="addSkill()"
+              placeholder="e.g. JavaScript"
+            />
+          </mat-form-field>
+          <button type="button" mat-raised-button color="primary" (click)="addSkill()">
+            <mat-icon>add</mat-icon>
+            Add
+          </button>
+        </div>
+
+        <mat-chip-set class="skills-list">
+          <mat-chip *ngFor="let skill of skills; let i = index" (removed)="removeSkill(i)">
+            {{ skill }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="form-actions">
+      <button type="button" mat-stroked-button (click)="cancel()">Cancel</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="loading()">
+        <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
+        {{ loading() ? 'Saving...' : isEditMode ? 'Update Resume' : 'Create Resume' }}
+      </button>
+    </div>
+  </form>
+</div>

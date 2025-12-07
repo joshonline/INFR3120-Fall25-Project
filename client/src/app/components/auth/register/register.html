@@ -1,0 +1,50 @@
+<mat-card class="auth-card">
+  <h2>Create Account</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- error -->
+    <div class="error" *ngIf="error()">
+      {{ error() }}
+    </div>
+
+    <!-- username -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" [(ngModel)]="username" name="username" required />
+    </mat-form-field>
+
+    <!-- for email -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="email" name="email" required />
+    </mat-form-field>
+
+    <!-- for password -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password" name="password" required />
+    </mat-form-field>
+
+    <!-- confirm password -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password2" name="password2" required />
+    </mat-form-field>
+
+    <!-- button -->
+    <button mat-raised-button color="primary" class="full-width" [disabled]="loading()">
+      Register
+    </button>
+
+    <!-- loading -->
+    <div class="spinner" *ngIf="loading()">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+
+    <!-- login link -->
+    <p class="switch-link">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+  </form>
+</mat-card>
