@@ -45,5 +45,6 @@ router.post("/login", userController.login);
 router.post("/logout", requireAuth, userController.logout);
 router.get("/profile", requireAuth, userController.getProfile);
 router.put("/profile", requireAuth, userController.updateProfile);
+router.put('/password', requireAuth, userController.changePassword);
 
 module.exports = router;

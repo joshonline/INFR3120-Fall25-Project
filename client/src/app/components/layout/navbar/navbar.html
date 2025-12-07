@@ -42,5 +42,6 @@
   <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/register">Register</button>
 
   <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/resumes">My Resumes</button>
+  <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/profile">Profile</button>
   <button mat-menu-item *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 </mat-menu>
