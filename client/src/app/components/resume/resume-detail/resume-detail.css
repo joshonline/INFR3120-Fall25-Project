@@ -1,0 +1,33 @@
+.detail-container {
+  padding: 20px;
+}
+
+.resume-card {
+  padding: 25px;
+}
+
+.resume-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.contact-info span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 12px;
+}
+
+.section {
+  margin-top: 25px;
+}
+
+.entry {
+  margin-bottom: 20px;
+}
+
+.skills-list {
+  margin-top: 10px;
+}
