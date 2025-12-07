@@ -28,8 +28,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: [
-      "http://localhost:4200",
-      // 'https://our-render-link' // Will add once deployed
+      // "http://localhost:4200",
+      https://infr3120-fall25-project-yjny.onrender.com/
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
