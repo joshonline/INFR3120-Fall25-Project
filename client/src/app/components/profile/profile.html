@@ -1,11 +1,148 @@
 <div class="profile-container">
-  <h1>Your Profile</h1>
-
-  <div *ngIf="user">
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Name:</strong> {{ user.fullName }}</p>
-    <p><strong>Account Created:</strong> {{ user.createdAt | date }}</p>
+  <!-- Loading state -->
+  <div *ngIf="loadingProfile()" class="loading-state">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading profile...</p>
   </div>
 
-  <button (click)="logout()">Logout</button>
+  <!-- Profile content -->
+  <mat-card class="profile-card" *ngIf="!loadingProfile()">
+    <mat-card-header>
+      <div class="profile-header">
+        <mat-icon class="profile-icon">account_circle</mat-icon>
+        <h2>My Profile</h2>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Success message -->
+      <div class="success" *ngIf="success()">
+        <mat-icon>check_circle</mat-icon>
+        {{ success() }}
+      </div>
+
+      <!-- Error message -->
+      <div class="error" *ngIf="error()">
+        <mat-icon>error</mat-icon>
+        {{ error() }}
+      </div>
+
+      <!-- Account Information Section -->
+      <div class="section">
+        <h3>Account Information</h3>
+
+        <!-- Username (read-only) -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput [value]="username" disabled />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <!-- Email (editable) -->
+        <form (ngSubmit)="onUpdateEmail()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="email" name="email" required />
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="full-width"
+            [disabled]="loading()"
+          >
+            <mat-icon>save</mat-icon>
+            Update Email
+          </button>
+        </form>
+      </div>
+
+      <!-- Password Section -->
+      <div class="section">
+        <div class="section-header">
+          <h3>Password</h3>
+          <button
+            mat-stroked-button
+            color="accent"
+            (click)="togglePasswordEdit()"
+            *ngIf="!isEditingPassword()"
+          >
+            <mat-icon>edit</mat-icon>
+            Change Password
+          </button>
+        </div>
+
+        <!-- Password change form (only shown when editing) -->
+        <form (ngSubmit)="onChangePassword()" *ngIf="isEditingPassword()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Current Password</mat-label>
+            <input
+              matInput
+              type="password"
+              [(ngModel)]="currentPassword"
+              name="currentPassword"
+              required
+            />
+            <mat-icon matSuffix>lock</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>New Password</mat-label>
+            <input
+              matInput
+              type="password"
+              [(ngModel)]="newPassword"
+              name="newPassword"
+              required
+              minlength="6"
+            />
+            <mat-icon matSuffix>lock_open</mat-icon>
+            <mat-hint>At least 6 characters</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirm New Password</mat-label>
+            <input
+              matInput
+              type="password"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+            <mat-icon matSuffix>lock_open</mat-icon>
+          </mat-form-field>
+
+          <div class="button-group">
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading()">
+              <mat-icon>check</mat-icon>
+              Change Password
+            </button>
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="togglePasswordEdit()"
+              [disabled]="loading()"
+            >
+              <mat-icon>close</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Loading spinner -->
+      <div class="spinner" *ngIf="loading()">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Resumes
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>

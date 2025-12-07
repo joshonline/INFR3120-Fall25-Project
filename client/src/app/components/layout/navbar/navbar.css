@@ -5,7 +5,7 @@
   padding: 0 20px;
 }
 
-.logo {
+.logo a {
   font-weight: bold;
   font-size: 20px;
   display: flex;

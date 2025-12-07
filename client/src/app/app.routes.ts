@@ -22,6 +22,8 @@ export const routes: Routes = [
   { path: 'resumes/new', component: ResumeForm, canActivate: [authGuard] },       
   { path: 'resumes/:id', component: ResumeDetail, canActivate: [authGuard] },    
   { path: 'resumes/:id/edit', component: ResumeForm, canActivate: [authGuard] },
+
+  // Profile
   { path: 'profile', component: Profile, canActivate: [authGuard] },
 
   // Wildcard - home redirect

@@ -5,8 +5,7 @@
   </button>
 
   <span class="logo">
-    <mat-icon>assignment</mat-icon>
-    Resume Builder
+    <a mat-button routerLink="/">CV</a>
   </span>
 
   <span class="spacer"></span>
@@ -23,6 +22,11 @@
       My Resumes
     </a>
 
+    <button mat-button *ngIf="isLoggedIn()" routerLink="/profile">
+      <mat-icon>profile</mat-icon>
+      Profile
+    </button>
+
     <button mat-button *ngIf="isLoggedIn()" (click)="logout()">
       <mat-icon>logout</mat-icon>
       Logout
@@ -37,8 +41,7 @@
   <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/login">Login</button>
   <button mat-menu-item *ngIf="!isLoggedIn()" routerLink="/register">Register</button>
 
-  <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/resumes">
-    My Resumes
-  </button>
+  <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/resumes">My Resumes</button>
+  <button mat-menu-item *ngIf="isLoggedIn()" routerLink="/profile">Profile</button>
   <button mat-menu-item *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 </mat-menu>
