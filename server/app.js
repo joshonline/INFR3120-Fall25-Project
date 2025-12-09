@@ -29,13 +29,15 @@ app.use(
   cors({
     origin: [
       // "http://localhost:4200",
-      "https://cv-client-infr3120-fall25.onrender.com/"
+      "https://cv-client-infr3120-fall25.onrender.com"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+// attempt to force CORS to apply preflight requests
+app.options("*", cors())
 
 app.use("/api", indexRouter);
 app.use("/api/users", usersRouter);
